@@ -7,6 +7,10 @@ route.get('/produto', (req, res) => {
 res.send(produto.listar())
 })
 
+route.get('/promocoes', (req, res) => {
+    res.send(produto.listPromo())})
+
+
 route.post('/produto', (req, res) => {
 res.send(produto.criar(req.body))
 })

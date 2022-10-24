@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "nome": "Alessandro Feitoza",
+        "email": "ale@email.com",
+        "senha": "123456",
+        "token": ""
+    },
+    {
+        "id": 2,
+        "nome": "Lalisa Manoban",
+        "email": "lalisaloveme@email.com",
+        "senha": "blackpink",
+        "token": ""
+    },
+    {
+        "id": 3,
+        "nome": "Jennie",
+        "email": "jenniesolo@email.com",
+        "senha": "blackpink2",
+        "token": ""
+    },
+    {
+        "id": 4,
+        "nome": "Jisoo",
+        "email": "jisoo@email.com",
+        "senha": "blackpink3",
+        "token": ""
+    }
+]

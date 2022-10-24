@@ -1,20 +1,22 @@
-let produtos = [
-    {
-        "id": 1,
-        "nome": "produto 1"
-    },
-    {
-        "id": 2,
-        "nome": "produto 2"
-    }
-]
+const fs = require('fs');
 
 function listar(){
-    return produtos;
+     return fs.readFileSync('controllers/produto/produto.json')
 }
+
+function listarPromo(){
+   let produtos = JSON.parse(fs.readFileSync('controllers/produto/produto.json'))
+   let promo = produtos.slice(-3, produtos.lenght)
+    return console.log(promo)
+}
+
+
 function criar(produto){
-    produtos.push(produto);
-    return produtos
+    fs.appendFile('controllers/produto/produto.json', produto, ()=>{
+        if (err) throw err;
+        console.log('The "data to append" was appended to file!');
+     });   
+    return produto
 }
 
 function atualizar(){
@@ -28,6 +30,7 @@ function deletar(produto_id){
 
 module.exports = {
     listar: listar,
+    listPromo: listarPromo,
     criar: criar,
     atualizar: atualizar,
     deletar: deletar
