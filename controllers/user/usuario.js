@@ -1,15 +1,15 @@
 const e = require('express');
 const fs = require('fs');
-const usuarios = fs.readFileSync('controllers/user/usuarios.db');
+const usuarios = JSON.parse(fs.readFileSync('controllers/user/usuarios.db'));
 
 function listar(){
-     let result =  JSON.parse(usuarios.map( usuario => {
+     let result = usuarios.map( usuario => {
         return {
             "id": usuario.id,
             "nome": usuario.nome,
             "email": usuario.email
         }
-    }))
+    })
     return  result;
 }
 
