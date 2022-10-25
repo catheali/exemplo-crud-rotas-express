@@ -24,8 +24,4 @@ router.get('/me', (req,res)=>{
     res.send( usuarioControler.pegarUsuarioLogado(token))
 })
 
-router.get('/me/carrinho', (req, res)=>{
-    res.send('novo carrinho')
-} )
-
 module.exports = router;

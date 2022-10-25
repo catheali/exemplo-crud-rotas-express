@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let usuarios = JSON.parse(fs.readFileSync('controllers/user/usuarios.db'));
+let usuarios = JSON.parse(fs.readFileSync('controllers/user/usuarios.json'));
 
 //listar todos os usuarios GET /usuarios
 function listar() {
@@ -56,7 +56,7 @@ function auth(emailReq, senhaReq) {
         return us;
     })
 
-    fs.writeFileSync('controllers/user/usuarios.db', JSON.stringify(usuarios));
+    fs.writeFileSync('controllers/user/usuarios.json', JSON.stringify(usuarios));
 
     return token; 
 }
@@ -65,7 +65,6 @@ function pegarUsuarioLogado(token){
     let usuario = usuarios.filter(us => us.token === token);
     return usuario [0] || false // se retornar false nao tem usuario logado com esse token
 }
-
 
 module.exports = {
     listar,
