@@ -1,54 +1,75 @@
-const e = require('express');
 const fs = require('fs');
-const usuarios = JSON.parse(fs.readFileSync('controllers/user/usuarios.db'));
 
-function listar(){
-     let result = usuarios.map( usuario => {
+let usuarios = JSON.parse(fs.readFileSync('controllers/user/usuarios.db'));
+
+//listar todos os usuarios GET /usuarios
+function listar() {
+    //como nao estamos usando banco de dados, fomos obrigados e coagidos a filtrar manualmente as informações
+    resultado = usuarios.map(us => {
         return {
-            "id": usuario.id,
-            "nome": usuario.nome,
-            "email": usuario.email
+            id: us.id,
+            nome: us.nome,
+            email: us.email,
         }
     })
-    return  result;
+
+    return JSON.stringify(resultado);
 }
 
-function buscar(id){
-    let usuario = JSON.parse(usuarios).filter(us => us.id == id )
-    return usuario[0]
+//Buscar um usuario GET /usuarios/1
+function buscar(idQueVeioNaURL) {
+    //SELECT * FROM usuarios WHERE id=3
+    let usuario = usuarios.filter(us => us.id == idQueVeioNaURL);
+
+    return JSON.stringify(usuario[0]);
 }
 
-function auth(emailReq, senhaReq){
-    //Select *FROM usuarios WHERE email = '
-    let usuario = JSON.parse(usuarios).filter(us => us.email === emailReq);
+//Autenticar e gerar um token POST /login (email e senha)
+function auth(emailReq, senhaReq) {
+    // SELECT * FROM usuarios WHERE email = 'a@a.com'
+    
+    let usuario = usuarios.filter(us => us.email === emailReq);
 
-    //se nao encontrou nenhum usuario é pq nenhum usuario existe cm esse email
-        if(usuario.length === 0){
-            return 'Usuario não encontrado';
+    //se nao encontrou nenhum usuario, é pq nenhum usuario existe com esse email
+    if (usuario.length === 0) {
+        return "Usuario nao encontrado";
+    }
+
+    //testando se a senha confere
+    if (usuario[0].senha !== senhaReq) {
+        return "Senha incorreta";
+    }
+
+    //se chegou ate aqui, entao o email e a senha conferem
+
+    //gerando um token pro usuario
+    let token = "K1llTh1z" + usuario[0].senha + "L0v3";
+    token = token.split("").reverse().join("");
+
+    //salvando o token no db/file (como nao estamos usando banco ficou essa marmota)
+    //UPDATE usuarios SET token='ABC123' WHERE id='3'
+    usuarios = usuarios.map(us => {
+        if (us.id == usuario[0].id) {
+            us.token = token;
         }
-        //senha incorreta
-        if(usuario[0].senha !== senhaReq){
-            return 'Senha Incorreta';
-        }
-        //se chegou ate aqui, o email e a senha conferem
 
-        //argon2i algoritimo de senha
-        let token = "shutd0wn!" + usuario[0].senha + "bl4p1nK1nY0uR4r34"
-        token = token.split("").reverse().join("");
+        return us;
+    })
 
-         //salvando o token no db.file
-         usuarios = JSON.parse(usuarios).map(us => {
-            if(us.id === usuario[0].id){
-                us.token = token;
-            }
-         })   
+    fs.writeFileSync('controllers/user/usuarios.db', JSON.stringify(usuarios));
 
-
-    return token
+    return token; 
 }
+
+function pegarUsuarioLogado(token){
+    let usuario = usuarios.filter(us => us.token === token);
+    return usuario [0] || false // se retornar false nao tem usuario logado com esse token
+}
+
 
 module.exports = {
-    listar: listar,
-   buscar: buscar,
-   auth: auth
-}
+    listar,
+    buscar,
+    auth,
+    pegarUsuarioLogado,
+};

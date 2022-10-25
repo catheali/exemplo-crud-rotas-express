@@ -6,7 +6,6 @@ router.get('/usuarios', (req, res)=>{
         usuarioControler.listar()
     )
 })
-
 router.get('/usuarios/:id', (req, res)=>{
     res.send(
         usuarioControler.buscar(req.params.id)
@@ -19,5 +18,14 @@ router.post('/login', (req, res)=>{
         usuarioControler.auth(email, senha)
     )
 });
+
+router.get('/me', (req,res)=>{
+    let token = req.headers.authorization
+    res.send( usuarioControler.pegarUsuarioLogado(token))
+})
+
+router.get('/me/carrinho', (req, res)=>{
+    res.send('novo carrinho')
+} )
 
 module.exports = router;
