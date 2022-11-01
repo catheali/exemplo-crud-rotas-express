@@ -1,0 +1,23 @@
+[
+    {
+        "id" : 1,
+        "comentario": "Produto muito bom !" ,
+        "nomeDoAutor": "Cachorro",
+        "produtoId": 2,
+        "date" : "26/10/2022"
+    },
+    {
+        "id" : 2,
+        "comentario": "Muito ruim" ,
+        "nomeDoAutor": "Lalisa Manoban",
+        "produtoId": 2,
+        "data" : "22/09/2022"
+    },
+    {
+        "id" : 3,
+        "comentario": "Queria correr doido" ,
+        "nomeDoAutor": "Cachorro",
+        "produtoId": 1,
+        "data" : "26/10/2022"
+    }
+]
